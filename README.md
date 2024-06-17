@@ -19,11 +19,11 @@ cd asados-ss24
 python -m venv venv
 ```
 4. Activate the virtual environment.
-On Windows:
+- On Windows:
 ```
 venv\Scripts\activate
 ```
-On Unix/MacOS:
+- On Unix/MacOS:
 ```
 source venv/bin/activate
 ```
