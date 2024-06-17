@@ -38,11 +38,11 @@ pip install -r requirements.txt
 1. 
 
 
-## Usage
+### Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
 
-## Authors
+### Authors
 - Aiman Bin Hassim [@ab23568](https://mygit.th-deg.de/ab23568)
 - Isabella Yang [@isabella.yang](https://mygit.th-deg.de/isabella.yang)
 - Vivian Yang [@vy16417](https://mygit.th-deg.de/vy16417)
