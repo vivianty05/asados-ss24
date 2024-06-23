@@ -47,7 +47,39 @@ pip install -r requirements.txt
 
 
 ## Deployment 
-1. 
+The method we use to deploy Python Project to Android is by using Window Subsystem for Linux. The reason is that Windows operating system is not compatible to convert a Python project into an Android apk. By using a subsystem, we can use an operating system such as Ubuntu to help convert the Python project to Android with Android Debug Bridge.
+
+### Deployment Steps
+1. Install Window Subsystem for Linux
+   - By using Windows Powershell, follow the steps from https://learn.microsoft.com/en-us/windows/wsl/install to install the subsystem.
+2. Install Ubuntu from the Microsoft Store and run.
+   - When Ubuntu is installed and first time setup is done, change the directory in the Ubuntu to the folder that you are working with the Python project (e.g: cd /mnt/c/Users/Documents/Project)
+3. Install Buildozer and dependencies
+   - To install Buildozer and the dependencies, follow the step from https://buildozer.readthedocs.io/en/latest/installation.html 
+4. Setup Android Debug Bridge (adb)
+   - Firstly install apt adb in Ubuntu by typing in `sudo apt install adb` to install the Android Debug Bridge in Ubuntu.
+   - Then download Android SDK Platform Tools for Android from https://developer.android.com/tools/releases/platform-tools#downloads, then copy the first three files from the zip. (adb, AdbWinApi.dll, AdbWinUsbApi.dll) into the folder that you are working on.
+5. Make sure to have the same version of Android Debug Bridge
+   - The adb files that you have downloaded, it must have the same version as in Ubuntu.
+   - In Ubuntu, simply type `./adb --version` to check which version of ADB that is installed.
+   - From the folder that you are working on, simply press 'Shift' and 'Right Click', and choose 'Open Window Powershell here'. In the Powershell, type `./adb --version`.
+   - If both have the same version, you are good to go.
+6. Enable developer option in Android device
+   - In your Android device setting, head to 'About phone' and keep pressing 'Build number' until developer mode is enabled.
+   - Once developer mode is enabled, in the setting now will have developer option. Press developer option and enable USB debugging.(with your device connected to PC)
+7. Create buildozer.spec file
+   - In Ubuntu, type `buildozer init` and it will create a buildozer.spec file in the folder of your project.
+   - Configure the buildozer.spec file and make sure that all requirements needed by your projects is included.
+8. Start Window adb server
+   - Open Windows Powershell from the project folder and type `./adb start-server`
+   - To make sure that your device is connected to the bridge, type `./adb devices`
+9. Start debug
+   - In Ubuntu, type `buildozer -v android debug` to start the debugging process. The process can take quite some time (45-90 minutes) depending on how complex your project is.
+   - If during your **first** debug process encounter a failure such as 'Buildozer failed to execute the last command' right after you debug, simply type `sudo mount -t C: /mnt/c/ -o metadata`. This is to ensure that all necessary files and resources are accessible from your Ubuntu environment.
+
+### Additional
+In the case of the steps being unclear to some, here is a link to a Youtube video that explain the same steps clearly.
+ - https://youtu.be/VsTaM057rdc?si=tGtEpw-M5N5SPEgh
 
 
 ## Usage
