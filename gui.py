@@ -1,49 +1,40 @@
-import pygame
-import numpy
-import math
-import time
-import threading
+import tkinter
+import customtkinter
+import Tone
 
-pygame.init()
+def generateTone():
+    global sound_instance
+    freq = frequency_var.get()
+    sound_instance = Tone.sine(freq)
 
-bits = 16
-sample_rate = 44100
+def stopTone():
+    Tone.stop(sound_instance)
 
-pygame.mixer.pre_init(sample_rate, bits)
+# System Settings
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
-# Calculates the amplitude of a sine wave at a given frequency and time
-def sine_x(amp, freq, time):
-    return int(round(amp * math.sin(2 * math.pi * freq * time)))
+# App Frame
+app = customtkinter.CTk()
+app.geometry("720x480")
+app.title("Sinus Wave Generator")
 
-class Tone:        
-    # Generates and plays sine waves
-    @staticmethod
-    def sine(freq, speaker=None):
+# UI Element
+title = customtkinter.CTkLabel(app, text = "Insert Frequency(Hz)")
+title.pack(padx=10, pady=10)
 
-        duration = 1
-        num_samples = int(round(duration * sample_rate))
+# Frequency Input
+frequency_var = tkinter.IntVar()
+frequency = customtkinter.CTkEntry(app, width=350, height=40, textvariable=frequency_var)
+frequency.pack(padx=10, pady=10)
 
-        sound_buffer = numpy.zeros((num_samples, 2), dtype = numpy.int16)
-        amplitude = 2 ** (bits - 1) - 1
+# Start Button
+play = customtkinter.CTkButton(app, text="Start", command=generateTone)
+play.pack()
 
-        for sample_num in range(num_samples):
-            t = float(sample_num) / sample_rate
+# Stop Button
+stop = customtkinter.CTkButton(app, text="Stop", command=stopTone)
+stop.pack()
 
-            sine = sine_x(amplitude, freq, t)
-
-            if speaker == 'r':
-                sound_buffer[sample_num][1] = sine
-            if speaker == 'l':
-                sound_buffer[sample_num][0] = sine
-
-            else:
-                sound_buffer[sample_num][1] = sine
-                sound_buffer[sample_num][0] = sine
-
-        sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play(loops=-1)    # Makes the sound play infinitely
-        return sound
-    
-    @staticmethod
-    def stop(sound):
-        sound.stop()
+# Run app
+app.mainloop()
