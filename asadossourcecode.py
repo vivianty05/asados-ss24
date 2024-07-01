@@ -1,9 +1,23 @@
+# ASADOS
+
+import time
+import math
+import pyaudio
+# import librosa
+import itertools
 import numpy as np
+# import seaborn as sns
 import sounddevice as sd
+# import IPython.display as ipd
+
 from scipy.signal import square, sawtooth
+# from abc import ABC, abstractmethod
+# from scipy.io import wavfile
+
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivymd.app import MDApp
+from kivy.uix.image import Image
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.slider import MDSlider
 from kivymd.uix.button import MDRaisedButton
@@ -12,6 +26,7 @@ from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.screen import MDScreen
 from threading import Thread, Event
 
+# GUI Code
 KV = '''
 MDScreen:
     BoxLayout: # Widgets are arranged sequentially (either horizontally or vertically)
@@ -29,13 +44,35 @@ MDScreen:
             halign: 'center'
             font_style: 'H5'
 
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: dp(20)
+            spacing: dp(20)
+
+            # Collect user input for base pitch
+            MDTextField:
+                id: A4frequency_value
+                hint_text: "Enter frequency for A4"
+                helper_text: "Only numbers are allowed"
+                helper_text_mode: "on_focus"
+                input_filter: 'float'   # Restrict input to float numbers
+                halign: 'center'
+                font_style: 'Subtitle1'
+
+            MDRaisedButton:
+                text: "Enter"
+                pos_hint: {'center_x': 0.5}
+                on_release: app.update_A4frequency()
+                size_hint_x: None
+                width: dp(100)
+
         # Slider for choosing the root frequency
         MDSlider:
             id: rootfrequency_slider
-            min: 440
+            min: 0
             max: 8000
             value: 440
-            hint: False # Doesn't show the value at which the slider is at
+            hint: False     # Doesn't show the value at which the slider is at
             on_value: app.update_rootfrequency(self.value)
             value_track: True
             value_track_color: app.theme_cls.primary_color
@@ -43,8 +80,8 @@ MDScreen:
         # Show the value of the root frequency as well as its chord
         BoxLayout:
             orientation: 'horizontal'
-            adding: dp(20) # Between the children and the edge of the app
-            spacing: dp(20) # Between each children
+            padding: dp(20)     # Between the children and the edge of the app
+            spacing: dp(20)     # Between each children
 
             MDLabel:
                 id: rootfrequency_value
@@ -63,15 +100,38 @@ MDScreen:
             halign: 'center'
             font_style: 'H5'
 
-        MDLabel:
-            text: "LFO Waveform"
-            halign: 'center'
-            font_style: 'H6'
-
-        # To select LFO waveform
         BoxLayout:
             padding: dp(10)
             spacing: dp(10)
+
+            MDLabel:
+                text: "Destination"
+                halign: 'center'
+                font_style: 'H6'
+
+            MDCheckbox:
+                id: amp_mod
+                group: 'lfodestination'
+                on_active: app.set_lfodestination('amp_mod', self.active)
+            MDLabel:
+                text: "AM"
+                
+            MDCheckbox:
+                id: freq_mod
+                group: 'lfodestination'
+                on_active: app.set_lfodestination('freq_mod', self.active)
+            MDLabel:
+                text: "FM"
+            
+        # To select LFO waveform
+        BoxLayout:
+            padding: dp(10)
+            spacing: dp(0)
+
+            MDLabel:
+                text: "Wave"
+                halign: 'center'
+                font_style: 'H6'
 
             MDCheckbox:
                 id: sine
@@ -79,9 +139,9 @@ MDScreen:
                 on_active: app.set_lfowaveform('sine', self.active)
             MDLabel:
                 text: "Sine"
-                
+
             MDCheckbox:
-                id: square
+                id: squares
                 group: 'lfowaveform'
                 on_active: app.set_lfowaveform('square', self.active)
             MDLabel:
@@ -97,46 +157,53 @@ MDScreen:
             MDCheckbox:
                 id: triangle
                 group: 'lfowaveform'
-                # on_active: app.set_triangle(*args)
                 on_active: app.set_lfowaveform('triangle', self.active)
             MDLabel:
                 text: "Triangle"
 
-        MDLabel:
-            text: "LFO Frequency"
-            halign: 'center'
-            font_style: 'H6'
+        BoxLayout: 
+            padding: dp(10)
+            spacing: dp(10)
 
-        # Slider for LFO frequency 
-        MDSlider:
-            id: lfofrequency_slider
-            min: 0
-            max: 20
-            value: 0.0 # Default LFO frequency value is set to 0
-            on_value: app.update_lfofrequency(self.value)
-            # value_track: True
-            # value_track_color: app.theme_cls.primary_color
+            MDLabel:
+                text: "LFO Frequency"
+                halign: 'center'
+                font_style: 'H6'
 
-        MDLabel:
-            text: "LFO Amplitude"
-            halign: 'center'
-            font_style: 'H6'
+            # Slider for LFO frequency 
+            MDSlider:
+                id: lfofrequency_slider
+                min: 0.0
+                max: 20.0
+                value: 0.0 # Default LFO frequency value is set to 0
+                on_value: app.update_lfofrequency(self.value)
+                # value_track: True
+                # value_track_color: app.theme_cls.primary_color
 
-        # Slider for LFO amplitude
-        MDSlider:
-            id: lfoamplitude_slider
-            min: 0
-            max: 1
-            value: 0.0
-            on_value: app.update_lfoamplitude(self.value)
-            # value_track: True
-            # value_track_color: app.theme_cls.primary_color
+        BoxLayout: 
+            padding: dp(10)
+            spacing: dp(10)
+
+            MDLabel:
+                text: "LFO Amplitude"
+                halign: 'center'
+                font_style: 'H6'
+
+            # Slider for LFO amplitude
+            MDSlider:
+                id: lfoamplitude_slider
+                min: 0.0
+                max: 1.0
+                value: 0.0
+                on_value: app.update_lfoamplitude(self.value)
+                # value_track: True
+                # value_track_color: app.theme_cls.primary_color
 
         BoxLayout:
             size_hint_y: None
             height: dp(50)
             spacing: dp(20)
-            padding: dp(10)
+            padding: dp(20)
 
             MDRaisedButton:
                 id: startstop_button
@@ -147,14 +214,23 @@ MDScreen:
                 width: dp(100)
 '''
 
+# Functionality Code
 class ToneGeneratorApp(MDApp):
     def build(self):
         self.rootwaveform = 'sine'  # The root waveform is set to sine, it's unchangeable
-        self.lfowaveform = 'sine'
         self.rootfrequency = 440
+        self.rootamplitude = 1
+        self.rootsound = None
+
+        self.lfowaveform = None
         self.lfofrequency = 0
-        self.rootamplitude = 0.5
         self.lfoamplitude = 0
+        self.lfodestination = None
+        self.amp_mod = False
+        self.freq_mod = False
+        self.modulatedsound = None
+
+        self.A4frequency = 440
         self.sample_rate = 44100
         self.duration = 1  # Duration per sample chunk, not relevant for continuous playback
         self.stop_event = Event()
@@ -163,14 +239,34 @@ class ToneGeneratorApp(MDApp):
         self.screen = Builder.load_string(KV)
         return self.screen
 
+    # Set LFO destination as Amplitude Modulation (AM) or Frequency Modulation (FM)
+    def set_lfodestination(self, destination, active):
+        if active: 
+            self.lfodestination = destination
+            if self.lfodestination == "amp_mod":
+                self.amp_mod = True
+            elif self.lfodestination == "freq_mod":
+                self.freq_mod = True            
+        else:
+            self.lfodestination = None   
+            self.amp_mod = False
+            self.freq_mod = False  
+        print(self.lfodestination)
+
     # Set the LFO waveform based on the ticked checkbox
     def set_lfowaveform(self, waveform, active):
         if active: 
             self.lfowaveform = waveform
 
+    # To update the A4 frequency
+    # The A4 frequency is used here because the formula to generate the frequency of each keynote is based on the A4 frequency
+    def update_A4frequency(self):
+        self.A4frequency = float(self.screen.ids.A4frequency_value.text)
+
     # To update the root frequency
     def update_rootfrequency(self, value):
         self.rootfrequency = value
+
         # Display the root frequency and chord on the screen
         self.screen.ids.rootfrequency_value.text = f"{value:.0f} Hz"
         self.screen.ids.chord_value.text = self.get_chord(value)        
@@ -182,33 +278,42 @@ class ToneGeneratorApp(MDApp):
     # To update the LFO amplitude
     def update_lfoamplitude(self, value):
         self.lfoamplitude = value
+    
+    # To generate a chord library based on the inputted A4 frequency
+    # The chord library will be consist of the keynote and its frequency, i.e. A4 = 440Hz, etc.
+    def generate_chord_library(self):
+        note_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+        chord_library = {}
+        
+        for midi_number in range(0, 128):  # MIDI numbers range from 0 to 127
+            frequency = self.A4frequency * 2 ** ((midi_number - 69) / 12)   # Calulates the frequency of each MIDI note; A4 MIDI note number = 69
+            octave = (midi_number // 12) - 1    # Calculate the octave for each midi number
+            note = note_names[midi_number % 12] # Retrieve the note name
+            note_name = f"{note}{octave}"
+            chord_library[note_name] = frequency
+        
+        return chord_library
 
+    #  To get the chord name, i.e. C4, etc,
     def get_chord(self, frequency):
-        # Define the frequencies for musical notes (A4 = 440Hz as reference)
-        notes = [
-            ('C0', 16.35), ('C#0/Db0', 17.32), ('D0', 18.35), ('D#0/Eb0', 19.45), ('E0', 20.60), ('F0', 21.83), ('F#0/Gb0', 23.12), ('G0', 24.50), ('G#0/Ab0', 25.96), ('A0', 27.50), ('A#0/Bb0', 29.14), ('B0', 30.87),
-            ('C1', 32.70), ('C#1/Db1', 34.65), ('D1', 36.71), ('D#1/Eb1', 38.89), ('E1', 41.20), ('F1', 43.65), ('F#1/Gb1', 46.25), ('G1', 49.00), ('G#1/Ab1', 51.91), ('A1', 55.00), ('A#1/Bb1', 58.27), ('B1', 61.74),
-            ('C2', 65.41), ('C#2/Db2', 69.30), ('D2', 73.42), ('D#2/Eb2', 77.78), ('E2', 82.41), ('F2', 87.31), ('F#2/Gb2', 92.50), ('G2', 98.00), ('G#2/Ab2', 103.83), ('A2', 110.00), ('A#2/Bb2', 116.54), ('B2', 123.47),
-            ('C3', 130.81), ('C#3/Db3', 138.59), ('D3', 146.83), ('D#3/Eb3', 155.56), ('E3', 164.81), ('F3', 174.61), ('F#3/Gb3', 185.00), ('G3', 196.00), ('G#3/Ab3', 207.65), ('A3', 220.00), ('A#3/Bb3', 233.08), ('B3', 246.94),
-            ('C4', 261.63), ('C#4/Db4', 277.18), ('D4', 293.66), ('D#4/Eb4', 311.13), ('E4', 329.63), ('F4', 349.23), ('F#4/Gb4', 369.99), ('G4', 392.00), ('G#4/Ab4', 415.30), ('A4', 440.00), ('A#4/Bb4', 466.16), ('B4', 493.88),
-            ('C5', 523.25), ('C#5/Db5', 554.37), ('D5', 587.33), ('D#5/Eb5', 622.25), ('E5', 659.25), ('F5', 698.46), ('F#5/Gb5', 739.99), ('G5', 783.99), ('G#5/Ab5', 830.61), ('A5', 880.00), ('A#5/Bb5', 932.33), ('B5', 987.77),
-            ('C6', 1046.50), ('C#6/Db6', 1108.73), ('D6', 1174.66), ('D#6/Eb6', 1244.51), ('E6', 1318.51), ('F6', 1396.91), ('F#6/Gb6', 1479.98), ('G6', 1567.98), ('G#6/Ab6', 1661.22), ('A6', 1760.00), ('A#6/Bb6', 1864.66), ('B6', 1975.53),
-            ('C7', 2093.00), ('C#7/Db7', 2217.46), ('D7', 2349.32), ('D#7/Eb7', 2489.02), ('E7', 2637.02), ('F7', 2793.83), ('F#7/Gb7', 2959.96), ('G7', 3135.96), ('G#7/Ab7', 3322.44), ('A7', 3520.00), ('A#7/Bb7', 3729.31), ('B7', 3951.07),
-            ('C8', 4186.01), ('C#8/Db8', 4434.92), ('D8', 4698.63), ('D#8/Eb8', 4978.03), ('E8', 5274.04), ('F8', 5587.65), ('F#8/Gb8', 5919.91), ('G8', 6271.93), ('G#8/Ab8', 6644.88), ('A8', 7040.00), ('A#8/Bb8', 7458.62), ('B8', 7902.13)
-        ]
+        chord_library = self.generate_chord_library()
         min_distance = float('inf')
         closest_note = 'A4'
-        for note, freq in notes:
+
+        # Iterates over chord library, calculate distance, and update the closest note
+        for note, freq in chord_library.items():
             distance = abs(frequency - freq)
             if distance < min_distance:
                 min_distance = distance
                 closest_note = note
+
         return closest_note
 
     # Generate a wave according to the waveform type and frequency
     def generate_wave(self, amplitude, waveform_type, frequency):
         # t = Time array
         t = np.linspace(0, self.duration, int(self.sample_rate * self.duration), endpoint=False)
+
         if waveform_type == 'sine':
             return amplitude * np.sin(2 * np.pi * frequency * t)
         elif waveform_type == 'square':
@@ -218,19 +323,33 @@ class ToneGeneratorApp(MDApp):
         elif waveform_type == 'triangle':
             return amplitude * sawtooth(2 * np.pi * frequency * t, 0.5)
 
+    def modulate(self):
+        self.rootsound = self.generate_wave(amplitude=self.rootamplitude, waveform_type=self.rootwaveform, frequency=self.rootfrequency)
+        lfowave = self.generate_wave(amplitude=self.lfoamplitude, waveform_type=self.lfowaveform, frequency=self.lfofrequency)
+
+        # Frequency modulation
+        if self.freq_mod is True:
+            self.amp_mod = False
+            modulation_index = 1
+            t = np.linspace(0, self.duration, int(self.sample_rate * self.duration), endpoint=False)
+            modulated_frequency = self.rootfrequency + modulation_index * lfowave
+            return np.sin(2 * np.pi * modulated_frequency * t)  # Generate the modulated wave directly
+
+        # Amplitude modulation
+        if self.amp_mod is True:
+            self.freq_mod = False
+            return self.rootsound * (1 + lfowave)
+        
+        # No LFO applied
+        if self.amp_mod is False and self.freq_mod is False:
+            return self.rootsound
+
     # Play the generated wave
     def play_tone(self):
         while not self.stop_event.is_set(): 
-            # Generate the root sound and LFO sound
-            root_sound = self.generate_wave(self.rootamplitude, self.rootwaveform, self.rootfrequency)
-            lfo_sound = self.generate_wave(self.lfoamplitude, self.lfowaveform, self.lfofrequency)
-
-            # Blend both waveforms (the root waveform and the LFO waveform)
-            # Multiplying both waveforms results in a smoother waveforms than adding them
-            modulated_sound = root_sound * lfo_sound if np.any(lfo_sound != 0) else root_sound
-
             # Play the current sound with an overlap
-            sd.play(modulated_sound, self.sample_rate, blocking=True)
+            self.modulatedsound = self.modulate()
+            sd.play(self.modulatedsound, self.sample_rate, blocking=True)
 
     # When pressed, the Start button will change into a Stop button and vice versa
     def toggle_button(self):
