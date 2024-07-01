@@ -86,7 +86,9 @@ In the case of the steps being unclear to some, here is a link to a Youtube vide
 1. Base Frequency Input 
 Users can enter a base frequency for A4 using the text field. This sets the fundamental frequency for the synthesizer.
 2. Key Notes Adjustment
+
 ![Screen_Recording_2024-07-01_at_22.14.07_2](/uploads/ab6ec061ccb4fca56c9377198db41414/Screen_Recording_2024-07-01_at_22.14.07_2.MOV)
+
 This slider allows users to adjust the key notes they want to play continuously.
 3. Start/Stop Button
 The button labeled "Start" starts the playback of the synthesized sound when pressed. This action initializes the sound generation and enables continuous playback. Upon pressing the button, it changes its text to "Stop". Pressing it again stops the playback, halting the sound generation process.
