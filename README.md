@@ -100,10 +100,24 @@ Users can configure LFO settings for modulation:
 During this project, we have encountered a few problems with the development and this is how we fixed the problem: 
 ### Challenge 1  
 **Problem:**  
-
+Finding the most suitable audio module that is compatible with android environment.
 **Solution:**  
-
-
+After tons of researches, we decided to use pyjnius as the sound module since it is the most Android-friendly module.
+### Challenge 2
+**Problem:**  
+When using pyjnius, it can only be tested in an Android environment which you either have to deploy after every change or have an Android emulator.  
+**Solution:**  
+There is no solution at the moment other than deploying the project after every major changes.
+### Challenge 3
+**Problem:**  
+Numpy works when running the project through the terminal, but unfortunately it does not compatible with Android so there are some functions that works best with numpy that cannot be implemented using only pyjnius.  
+**Solution:**  
+Using the basic Python libraries to create the same functionality as numpy.  
+### Challenge 4  
+**Problem:**  
+Project that has been deployed using only pyjnius as audio module have some trouble generating LFO waveforms.  
+**Solution:**  
+There is no solution at the moment, as the function works best by using numpy.
 ## Authors
 - Aiman Bin Hassim [@ab23568](https://mygit.th-deg.de/ab23568)
 - Isabella Yang [@isabella.yang](https://mygit.th-deg.de/isabella.yang)
