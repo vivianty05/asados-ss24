@@ -86,23 +86,32 @@ In the case of the steps being unclear to some, here is a link to a Youtube vide
 **1. Base Frequency Input**
 
 ![Entering the base frequency](/uploads/5251251bd37fbfba93b22349d14294e1/Screen_Recording_2024-07-01_at_22.14.07.MOV)
+
 Users can enter a base frequency for A4 using the text field. This sets the fundamental frequency for the synthesizer.
+
 **2. Key Notes Adjustment**
 
 ![Using sliders to pick key notes](/uploads/ab6ec061ccb4fca56c9377198db41414/Screen_Recording_2024-07-01_at_22.14.07_2.MOV)
+
 This slider allows users to adjust the key notes they want to play continuously.
+
 **3. Start/Stop Button**
 
 ![Start or stop button](/uploads/798712f6c28448931deeaaaa3f21ca8d/Screen_Recording_2024-07-01_at_22.14.07_6.MOV)
+
 The button labeled "Start" starts the playback of the synthesized sound when pressed. This action initializes the sound generation and enables continuous playback. Upon pressing the button, it changes its text to "Stop". Pressing it again stops the playback, halting the sound generation process.
+
 **4. LFO (Low Frequency Oscillator) Settings**
+
 Users can configure LFO settings for modulation: 
 - Destination: Users can select either Amplitude Modulation (AM) or Frequency Modulation (FM) using checkboxes.
 
 ![Checking which destination for LFO](/uploads/aeb99aaefa6db3202de32911979d3a0f/Screen_Recording_2024-07-01_at_22.14.07_3.MOV)
+
 - Waveform: Users can choose from different waveforms (Sine, Square, Sawtooth, Triangle) for the LFO modulation using checkboxes.
 
 ![Checking which waveform to use](/uploads/7f2e04bcd14d6592a7ebac3456ca765b/Screen_Recording_2024-07-01_at_22.14.07_4.MOV)
+
 - Frequency and Amplitude: Sliders allow users to set the frequency and amplitude of the LFO.
 
 ![Adjusting frequency and amplitude modulation](/uploads/eeaee735a3fec14c8491ad5399e2a7ee/Screen_Recording_2024-07-01_at_22.14.07_5.MOV)
