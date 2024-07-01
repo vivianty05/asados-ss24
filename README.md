@@ -84,6 +84,7 @@ In the case of the steps being unclear to some, here is a link to a Youtube vide
 
 ## Usage
 Here are the features this app can implement and the tutorial videos on how to use each of them. The tutorial videos were run on ASADOS app running in computer.
+
 **1. Base Frequency Input**
 
 ![Entering the base frequency](/uploads/5251251bd37fbfba93b22349d14294e1/Screen_Recording_2024-07-01_at_22.14.07.MOV)
