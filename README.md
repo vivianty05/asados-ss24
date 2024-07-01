@@ -111,7 +111,7 @@ When using pyjnius, it can only be tested in an Android environment which you ei
 There is no solution at the moment other than deploying the project after every major changes.
 ### Challenge 3
 **Problem:**  
-Numpy works when running the project through the terminal, but unfortunately it does not compatible with Android so there are some functions that works best with numpy that cannot be implemented using only pyjnius.  
+Numpy works when running the project through the terminal, but unfortunately it is not compatible with Android so there are some functions that works best with numpy that cannot be implemented using only pyjnius.  
 **Solution:**  
 Using the basic Python libraries to create the same functionality as numpy.  
 ### Challenge 4  
