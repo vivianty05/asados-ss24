@@ -11,7 +11,9 @@ This project aims to develop an innovative and user-friendly mobile application 
 3. Deployment
 4. Usage
 5. Challenges and Solutions
-6. Authors
+6. Known Issue and Limitation
+7. Contribute
+8. Authors
 
 
 ## Features
@@ -130,16 +132,22 @@ After tons of researches, we decided to use pyjnius as the sound module since it
 When using pyjnius, it can only be tested in an Android environment which you either have to deploy after every change or have an Android emulator.  
 **Solution:**  
 There is no solution at the moment other than deploying the project after every major changes.
-### Challenge 3
-**Problem:**  
-Numpy works when running the project through the terminal, but unfortunately it does not compatible with Android so there are some functions that works best with numpy that cannot be implemented using only pyjnius.  
-**Solution:**  
-Using the basic Python libraries to create the same functionality as numpy.  
-### Challenge 4  
-**Problem:**  
-Project that has been deployed using only pyjnius as audio module have some trouble generating LFO waveforms.  
-**Solution:**  
-There is no solution at the moment, as the function works best by using numpy.
+
+
+## Known Issue and Limitation
+**LFO sound not generated on deployed app:**
+To generate the LFO modulation function, numpy is the best option for the LFO sound to work. However, numpy works when running the project through the terminal. Unfortunately, it is not compatible with Android so there are some functions that works best with numpy that cannot be implemented using only pyjnius. Meanwhile, project that has been deployed using only pyjnius as audio module have some trouble generating LFO waveforms. 
+
+We are actively working on this issue and welcome contributions or suggestions from the community. If you have any ideas or solutions, please feel free to open an issue or submit a pull request.
+
+## Contribute
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature-branch`)
+3. Make your changes and commit them (`git commit -m 'Add some feature')
+4. Push to the branch (`git push origin feature-branch`)
+5. Open a pull request
+
+
 ## Authors
 - Aiman Bin Hassim [@ab23568](https://mygit.th-deg.de/ab23568)
 - Isabella Yang [@isabella.yang](https://mygit.th-deg.de/isabella.yang)
