@@ -120,8 +120,7 @@ Users can configure LFO settings for modulation:
 During this project, we have encountered a few problems with the development and this is how we fixed the problem: 
 ### Challenge 1  
 **Problem:**  
-Finding the most suitable audio module that is compatible with android environment.
-
+Finding the most suitable audio module that is compatible with android environment. \n
 **Solution:**  
 After tons of researches, we decided to use pyjnius as the sound module since it is the most Android-friendly module.
 ### Challenge 2
