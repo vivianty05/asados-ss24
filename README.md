@@ -121,6 +121,7 @@ During this project, we have encountered a few problems with the development and
 ### Challenge 1  
 **Problem:**  
 Finding the most suitable audio module that is compatible with android environment.
+
 **Solution:**  
 After tons of researches, we decided to use pyjnius as the sound module since it is the most Android-friendly module.
 ### Challenge 2
