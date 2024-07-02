@@ -85,8 +85,7 @@ Here are the features this app can implement and the tutorial videos on how to u
 
 **1. Base Frequency Input**
 
-![Entering the base frequency](/uploads/5251251bd37fbfba93b22349d14294e1/Screen_Recording_2024-07-01_at_22.14.07.MOV)
-
+![Entering the base frequency](/uploads/5251251bd37fbfba93b22349d14294e1/Screen_Recording_2024-07-01_at_22.14.07.MOV)<br> 
 Users can enter a base frequency for A4 using the text field. This sets the fundamental frequency for the synthesizer.
 
 **2. Key Notes Adjustment**
@@ -120,7 +119,7 @@ Users can configure LFO settings for modulation:
 During this project, we have encountered a few problems with the development and this is how we fixed the problem: 
 ### Challenge 1  
 **Problem:**  
-Finding the most suitable audio module that is compatible with android environment. \n
+Finding the most suitable audio module that is compatible with android environment.  
 **Solution:**  
 After tons of researches, we decided to use pyjnius as the sound module since it is the most Android-friendly module.
 ### Challenge 2
