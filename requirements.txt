@@ -15,6 +15,7 @@ PyAudio==0.2.14
 pycparser==2.22
 pygame==2.5.2
 Pygments==2.18.0
+pyjnius==1.6.1
 requests==2.32.2
 scipy==1.13.1
 setuptools==69.5.1
