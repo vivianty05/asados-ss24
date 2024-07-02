@@ -6,17 +6,13 @@ This project aims to develop an innovative and user-friendly mobile application 
 
 
 ## Table of Content:
-1. Features
-2. Installation
-3. Deployment
-4. Usage
-5. Challenges and Solutions
-6. Known Issue and Limitation
-7. Contribute
-8. Authors
-
-
-## Features
+1. Installation
+2. Deployment
+3. Features and Usage
+4. Challenges and Solutions
+5. Known Issue and Limitation
+6. Contribute
+7. Authors
 
 
 ## Installation 
