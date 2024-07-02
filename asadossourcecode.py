@@ -1,5 +1,12 @@
-# ASADOS
-
+# ASADOS - Android Synthesizer App for Drone and Overtone Singing
+# File      : asadossourcecode.py
+# Subject   : Wahlpflichtfach Projekt ASADOS, Sommersemester 2024
+# Authors   : Aiman Bin Hassim, Isabella Yang, Vivian Yang
+# Date      : 01/07/2024
+# This file contains the source code for the ASADOS app. This code implements a sound synthesizer using KivyMD  
+# for the GUI and Android audio classes for sound generation. Users can set a base frequency, adjust the root frequency,  
+# and apply LFO to modulate amplitude or frequency with various waveforms. The app supports continuous sound playback  
+# with real-time parameter adjustments. 
 import time
 import math
 import pyaudio
@@ -330,10 +337,11 @@ class ToneGeneratorApp(MDApp):
         # Frequency modulation
         if self.freq_mod is True:
             self.amp_mod = False
-            modulation_index = 1
-            t = np.linspace(0, self.duration, int(self.sample_rate * self.duration), endpoint=False)
+            modulation_index = 1 # The ratio of frequency deviation to the modulating frequency
+            # t = np.linspace(0, self.duration, int(self.sample_rate * self.duration), endpoint=False)
             modulated_frequency = self.rootfrequency + modulation_index * lfowave
-            return np.sin(2 * np.pi * modulated_frequency * t)  # Generate the modulated wave directly
+            # return np.sin(2 * np.pi * modulated_frequency * t)  # Generate the modulated wave directly
+            return self.generate_wave(self.lfoamplitude, self.lfowaveform, modulated_frequency)
 
         # Amplitude modulation
         if self.amp_mod is True:
