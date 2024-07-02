@@ -80,7 +80,7 @@ In the case of the steps being unclear to some, here is a link to a Youtube vide
  - https://youtu.be/VsTaM057rdc?si=tGtEpw-M5N5SPEgh
 
 
-## Usage
+## Features and Usage
 Here are the features this app can implement and the tutorial videos on how to use each of them. The tutorial videos were run on ASADOS app running in computer.
 
 **1. Base Frequency Input**
