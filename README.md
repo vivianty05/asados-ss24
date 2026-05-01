@@ -6,13 +6,13 @@ This project aims to develop an innovative and user-friendly mobile application 
 
 
 ## Table of Content:
-1. Installation
-2. Deployment
-3. Features and Usage
-4. Challenges and Solutions
-5. Known Issue and Limitation
-6. Contribute
-7. Authors
+- [Installation](#installation)
+- [Deployment](#deployment)
+- [Features and Usage](#features-and-usage)
+- [Challenges and Solutions](#challenges-and-solutions)
+- [Known Issues and Limitation](#known-issues-and-limitation)
+- [Contribute](#contribute)
+- [Authors](#authors)
 
 
 ## Installation 
@@ -84,25 +84,25 @@ In the case of the steps being unclear to some, here is a link to a Youtube vide
 Here are the features this app can implement and the tutorial videos on how to use each of them. The tutorial videos were run on ASADOS app running in computer.
 
 **1. Base Frequency Input**  
-![Entering the base frequency](/uploads/5251251bd37fbfba93b22349d14294e1/Screen_Recording_2024-07-01_at_22.14.07.MOV)<br> 
+![Entering the base frequency](/uploads/base-note.MOV)<br> 
 Users can enter a base frequency for A4 using the text field. This sets the fundamental frequency for the synthesizer.
 
 **2. Key Notes Adjustment**  
-![Using sliders to pick key notes](/uploads/ab6ec061ccb4fca56c9377198db41414/Screen_Recording_2024-07-01_at_22.14.07_2.MOV)<br>
+![Using sliders to pick key notes](/uploads/key-notes-adjustments.MOV)<br>
 This slider allows users to adjust the key notes they want to play continuously.
 
 **3. Start/Stop Button**  
-![Start or stop button](/uploads/798712f6c28448931deeaaaa3f21ca8d/Screen_Recording_2024-07-01_at_22.14.07_6.MOV)<br>
+![Start or stop button](/uploads/start-or-stop-button.MOV)<br>
 The button labeled "Start" starts the playback of the synthesized sound when pressed. This action initializes the sound generation and enables continuous playback. Upon pressing the button, it changes its text to "Stop". Pressing it again stops the playback, halting the sound generation process.
 
 **4. LFO (Low Frequency Oscillator) Settings**
 Users can configure LFO settings for modulation:  
 - Destination: Users can select either Amplitude Modulation (AM) or Frequency Modulation (FM) using checkboxes.  
-![Checking which destination for LFO](/uploads/aeb99aaefa6db3202de32911979d3a0f/Screen_Recording_2024-07-01_at_22.14.07_3.MOV)<br>
+![Checking which destination for LFO](/uploads/destination-lfo.MOV)<br>
 - Waveform: Users can choose from different waveforms (Sine, Square, Sawtooth, Triangle) for the LFO modulation using checkboxes.  
-![Checking which waveform to use](/uploads/7f2e04bcd14d6592a7ebac3456ca765b/Screen_Recording_2024-07-01_at_22.14.07_4.MOV)<br>
+![Checking which waveform to use](/uploads/waveform-lfo.MOV)<br>
 - Frequency and Amplitude: Sliders allow users to set the frequency and amplitude of the LFO.  
-![Adjusting frequency and amplitude modulation](/uploads/eeaee735a3fec14c8491ad5399e2a7ee/Screen_Recording_2024-07-01_at_22.14.07_5.MOV)
+![Adjusting frequency and amplitude modulation](/uploads/adjust-frequency-and-amplitude.MOV)
 
 
 ## Challenges and Solutions
@@ -119,7 +119,7 @@ When using pyjnius, it can only be tested in an Android environment which you ei
 There is no solution at the moment other than deploying the project after every major changes.
 
 
-## Known Issue and Limitation
+## Known Issues and Limitation
 **LFO sound not generated on deployed app:**
 To generate the LFO modulation function, numpy is the best option for the LFO sound to work. However, numpy works when running the project through the terminal. Unfortunately, it is not compatible with Android so there are some functions that works best with numpy that cannot be implemented using only pyjnius. Meanwhile, project that has been deployed using only pyjnius as audio module have some trouble generating LFO waveforms. 
 
